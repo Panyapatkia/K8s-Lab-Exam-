@@ -17,12 +17,14 @@
 | API Service | api-589 | บริการ API สำหรับแสดงข้อความตาม URL ที่เรียกใช้งาน |
 | Admin Dashboard | admin-589 | หน้าสำหรับผู้ดูแลระบบ พร้อมลิงก์ไปยังหน้าแก้ไขข้อมูล |
 
-ชื่อและหน้าที่ของแต่ละ Application
-ลำดับ	URL / Path	ชื่อ Application	Deployment Name	หน้าที่
-1	www.iam-589.com/	Student Portal	portal-589	แสดงรูปภาพ ชื่อ และรหัสนักศึกษา
-2	www.iam-589.com/research	Research	app-research	แสดงบทสรุปงานวิจัย 300–500 คำ
-3	www.iam-589.com/api-589/<ข้อความ>	API Service	api-589	แสดงข้อความที่ส่งผ่าน URL ด้วยตัวอักษรขนาดใหญ่ตรงกลางหน้าจอ
-4	admin.iam-589.com/	Admin Dashboard	admin-589	แสดงปุ่มสำหรับเลือกแก้ไขข้อมูล Student Portal และ Research
+### ชื่อและหน้าที่ของแต่ละ Application
+
+| ลำดับ | URL / Path | Application Name | Deployment Name | หน้าที่ |
+|---|---|---|---|---|
+| 1 | `www.iam-589.com/` | Student Portal | `portal-589` | แสดงรูปภาพ ชื่อ และรหัสนักศึกษา |
+| 2 | `www.iam-589.com/research` | Research | `app-research` | แสดงบทสรุปงานวิจัยประมาณ 300–500 คำ |
+| 3 | `www.iam-589.com/api-589/<ข้อความ>` | API Service | `api-589` | นำข้อความจาก URL มาแสดงด้วยตัวอักษรขนาดใหญ่ตรงกลางหน้าจอ |
+| 4 | `admin.iam-589.com/` | Admin Dashboard | `admin-589` | แสดงปุ่มสำหรับเลือกแก้ไขข้อมูล Student Portal และ Research |
 
 ## 4. โครงสร้าง Repository
 
