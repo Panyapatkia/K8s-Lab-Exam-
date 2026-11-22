@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="th"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit Profile | 68130589</title>
+<style>
+:root{--bg:#07111f;--panel:#12243b;--line:#2b4563;--text:#edf5ff;--muted:#9bb0ca;--blue:#38bdf8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 20% 0%,#12365a,transparent 40%),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Tahoma,sans-serif;padding:25px}
+.top{max-width:850px;margin:15px auto}.back{color:var(--blue);font-size:13px;font-weight:700}
+.panel{max-width:850px;margin:20px auto;background:linear-gradient(145deg,#172d49,#101e33);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,5vw,42px);box-shadow:0 22px 60px #0005}
+.eyebrow{color:var(--blue);font-size:11px;letter-spacing:2px;font-weight:800}h1{margin:8px 0;font-size:30px}.muted{color:var(--muted);line-height:1.7}
+label{display:block;margin:20px 0 8px;font-size:13px;font-weight:700;color:#dceaff}
+input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:#09172a;color:white;font-size:15px}
+input:focus{outline:2px solid #38bdf855;border-color:var(--blue)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{padding:13px 20px;border:0;border-radius:11px;background:linear-gradient(120deg,#38bdf8,#818cf8);color:#071426;font-weight:800;cursor:pointer;text-decoration:none}
+.btn.alt{background:#1b3553;color:#dceaff;border:1px solid var(--line)}
+.preview{max-width:120px;max-height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--blue);margin-top:12px}
+</style></head><body>
+<div class="top"><a class="back" href="/">← BACK TO PORTAL</a></div>
+<main class="panel">
+<div class="eyebrow">PROFILE MANAGEMENT · 68130589</div>
+<h1>Edit Student Profile</h1>
+<p class="muted">แก้ไขข้อมูลส่วนตัวและรูปภาพโปรไฟล์ของคุณ</p>
+<form method="POST" enctype="multipart/form-data">
+<label>Full Name</label><input name="name" value="{{ data.name }}" required>
+<label>Student ID</label><input name="student_id" value="{{ data.student_id }}" required>
+<label>Profile Image</label><input type="file" name="photo" accept="image/*">
+{% if data.image %}<img class="preview" src="/uploads/{{ data.image }}" alt="Current profile image">{% endif %}
+<div class="actions"><button class="btn" type="submit">SAVE CHANGES</button><a class="btn alt" href="/">CANCEL</a></div>
+</form>
+</main></body></html>

@@ -1,0 +1,74 @@
+apiVersion: v1
+data:
+  app.py: |
+    from flask import Flask, render_template_string
+
+    app = Flask(__name__)
+
+    HTML = """
+    <!DOCTYPE html>
+    <html lang="th">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>API 68130589</title>
+    <style>
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #101827;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        padding: 50px 30px;
+        background: #1e293b;
+        border-radius: 20px;
+        text-align: center;
+    }
+    h1 { color: #38bdf8; }
+    .message {
+        font-size: clamp(28px, 6vw, 64px);
+        font-weight: bold;
+        overflow-wrap: anywhere;
+        margin-top: 35px;
+    }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <h1>API SERVICE</h1>
+        <p>STUDENT ID: 68130589</p>
+        <div class="message">{{ message }}</div>
+    </div>
+    </body>
+    </html>
+    """
+
+    @app.route("/")
+    def index():
+        return "API-589 is running. Use /api-589/<message>", 200
+
+    @app.route("/api-589/<path:message>")
+    def show_message(message):
+        return render_template_string(HTML, message=message)
+
+    @app.route("/health")
+    def health():
+        return {"status": "ok", "application": "api-589"}
+
+    if __name__ == "__main__":
+        app.run(host="0.0.0.0", port=5000)
+  requirements.txt: |
+    Flask==3.1.2
+    gunicorn==23.0.0
+kind: ConfigMap
+metadata:
+  name: api-code
+  namespace: exam-589

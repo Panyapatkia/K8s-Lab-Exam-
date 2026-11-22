@@ -1,0 +1,46 @@
+from flask import Flask, render_template_string
+from markupsafe import escape
+
+app = Flask(__name__)
+
+HTML = """
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Service | 68130589</title>
+<style>
+:root{--bg:#07111f;--line:#2b4563;--blue:#38bdf8;--text:#edf5ff;--muted:#9bb0ca}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 20% 0%,#12365a,transparent 40%),radial-gradient(ellipse at 90% 90%,#241b52,transparent 35%),var(--bg);font-family:Inter,"Segoe UI",Tahoma,sans-serif;color:var(--text)}
+.panel{width:min(94%,1000px);padding:clamp(28px,6vw,65px);text-align:center;border-radius:25px;border:1px solid var(--line);background:linear-gradient(145deg,#172d49,#101e33);box-shadow:0 25px 70px #0006}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--blue);font-weight:800}
+h1{font-size:clamp(27px,5vw,42px);margin:15px 0 5px}
+.muted{color:var(--muted);font-size:13px}
+.message{margin:40px 0;padding:35px 20px;border:1px solid #315577;border-radius:18px;background:#09172a;font-size:clamp(28px,6vw,65px);font-weight:800;overflow-wrap:anywhere;box-shadow:inset 0 0 35px #38bdf811}
+.btn{display:inline-block;padding:13px 22px;border-radius:12px;background:linear-gradient(120deg,#38bdf8,#818cf8);color:#071426;text-decoration:none;font-size:13px;font-weight:800}
+</style></head>
+<body><main class="panel">
+<div class="eyebrow">KUBERNETES · APPLICATION PROGRAMMING INTERFACE</div>
+<h1>API SERVICE</h1>
+<div class="muted">STUDENT ID: 68130589</div>
+<div class="message">{{ message }}</div>
+<a class="btn" href="/">← BACK TO HOME</a>
+</main></body></html>
+"""
+
+@app.route("/")
+def index():
+    return "API-589 is running. Use /api-589/<message>", 200
+
+@app.route("/api-589/<path:message>")
+def show_message(message):
+    return render_template_string(HTML, message=message)
+
+@app.route("/health")
+def health():
+    return {"status": "ok", "application": "api-589"}
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)

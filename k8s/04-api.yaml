@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-589
+  namespace: exam-589
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-589
+  template:
+    metadata:
+      labels:
+        app: api-589
+    spec:
+      containers:
+        - name: api
+          image: python:3.12-slim
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command:
+            - /bin/sh
+            - -c
+            - pip install --no-cache-dir -r requirements.txt && gunicorn --bind 0.0.0.0:5000 app:app
+          ports:
+            - name: http
+              containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: api-code
+              mountPath: /app
+      volumes:
+        - name: api-code
+          configMap:
+            name: api-code
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-api
+  namespace: exam-589
+spec:
+  type: ClusterIP
+  selector:
+    app: api-589
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5000
+      protocol: TCP

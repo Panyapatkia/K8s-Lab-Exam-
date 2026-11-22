@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-589
+  namespace: exam-589
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin-589
+  template:
+    metadata:
+      labels:
+        app: admin-589
+    spec:
+      containers:
+        - name: admin
+          image: docker.io/library/python:3.12-slim
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command: ["/bin/sh", "-c"]
+          args:
+            - pip install --no-cache-dir -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 app:app
+          ports:
+            - name: http
+              containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: admin-code
+              mountPath: /app
+              readOnly: true
+            - name: admin-templates
+              mountPath: /app/templates
+              readOnly: true
+      volumes:
+        - name: admin-code
+          configMap:
+            name: admin-code
+        - name: admin-templates
+          configMap:
+            name: admin-templates
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-admin
+  namespace: exam-589
+spec:
+  type: ClusterIP
+  selector:
+    app: admin-589
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5000
+      protocol: TCP

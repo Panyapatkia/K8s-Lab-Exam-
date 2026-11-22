@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: exam-ingress
+  namespace: exam-589
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.iam-589.com
+      http:
+        paths:
+          - path: /research
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-research
+                port:
+                  number: 80
+
+          - path: /api-589
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-api
+                port:
+                  number: 80
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-portal
+                port:
+                  number: 80
+
+    - host: admin.iam-589.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-admin
+                port:
+                  number: 80

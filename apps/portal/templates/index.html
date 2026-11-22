@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Portal | 68130589</title>
+<style>
+:root{--bg:#07111f;--panel:#101f35;--panel2:#172b47;--line:#29415e;--text:#edf5ff;--muted:#9bb0ca;--blue:#38bdf8;--purple:#8b5cf6;--green:#34d399}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,"Segoe UI",Tahoma,sans-serif;background:radial-gradient(ellipse at 15% 0%,#12365a 0,transparent 38%),radial-gradient(ellipse at 90% 85%,#241b52 0,transparent 35%),var(--bg)}
+a{color:inherit;text-decoration:none}
+.nav{border-bottom:1px solid #29415e;background:#07111fdc;backdrop-filter:blur(14px);position:sticky;top:0;z-index:5}
+.nav-inner{max-width:1120px;margin:auto;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand{font-weight:900;letter-spacing:2px;font-size:19px}
+.brand span{color:var(--blue)}
+.links{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:#c2d3e8}
+.links a:hover{color:var(--blue)}
+.wrap{width:min(92%,1050px);margin:48px auto}
+.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:22px;align-items:stretch}
+.card{background:linear-gradient(145deg,#142943ee,#0e1b30ee);border:1px solid var(--line);border-radius:23px;padding:30px;box-shadow:0 22px 65px #0005}
+.profile{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.avatar{width:155px;height:155px;border-radius:50%;object-fit:cover;border:3px solid var(--blue);box-shadow:0 0 35px #38bdf855;background:#203b59}
+.initial{display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:var(--blue)}
+.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:var(--blue)}
+h1{font-size:clamp(26px,4vw,38px);margin:18px 0 5px}
+.student-id{color:var(--blue);letter-spacing:3px;font-weight:700}
+.muted{color:var(--muted);line-height:1.8}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 19px;border-radius:12px;background:linear-gradient(120deg,var(--blue),#818cf8);color:#061426;font-weight:800;font-size:13px;border:0;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.btn.secondary{background:#1c3553;color:#d9eaff;border:1px solid #365574}
+.profile .btn{margin-top:22px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:42px 0 17px;gap:12px}
+.section-head h2{margin:5px 0;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.service{display:block;padding:24px;border-radius:19px;background:linear-gradient(145deg,#142943,#0e1b30);border:1px solid var(--line);transition:.2s}
+.service:hover{transform:translateY(-4px);border-color:#38bdf8;box-shadow:0 15px 40px #0004}
+.icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#38bdf822;font-size:23px;margin-bottom:16px}
+.icon.purple{background:#8b5cf622}.icon.green{background:#34d39922}
+.service h3{margin:0 0 7px}.service p{font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 15px}
+.open{font-size:12px;color:var(--blue);font-weight:800}
+.footer{text-align:center;color:#7188a6;font-size:11px;padding:35px 10px;letter-spacing:1px}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.nav-inner{align-items:flex-start;flex-direction:column}.links{gap:14px}.wrap{margin:28px auto}.card{padding:23px}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="/">PANYAPAT<span>.</span></a>
+<div class="links">
+<a href="/">HOME</a><a href="/research">RESEARCH</a>
+<a href="/api-589/Hello-Kubernetes-589">API SERVICE</a>
+<a href="http://admin.iam-589.com/">ADMIN</a>
+</div>
+</div></nav>
+<main class="wrap">
+<div class="hero">
+<section class="card profile">
+<div class="eyebrow">STUDENT PROFILE</div>
+{% if data.image %}
+<img class="avatar" src="/uploads/{{ data.image }}" alt="Student Profile">
+{% else %}
+<div class="avatar initial">PS</div>
+{% endif %}
+<h1>{{ data.name }}</h1>
+<div class="student-id">STUDENT ID: {{ data.student_id }}</div>
+<p class="muted">Computer Engineering<br>Technology • Infrastructure • Cloud</p>
+<a class="btn" href="/edit">✎ &nbsp; EDIT PROFILE</a>
+</section>
+<section class="card">
+<div class="eyebrow">KUBERNETES APPLICATION PLATFORM</div>
+<h1>Welcome to My<br>Digital Workspace.</h1>
+<p class="muted">พื้นที่รวบรวมบริการและผลงานที่พัฒนาบน Kubernetes Cluster เพื่อแสดงการทำงานของ Web Application, API และระบบจัดการข้อมูล</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:25px">
+<a class="btn" href="/research">EXPLORE RESEARCH ↗</a>
+<a class="btn secondary" href="http://admin.iam-589.com/">ADMIN PORTAL</a>
+</div>
+<div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:28px;flex-wrap:wrap">
+<div><div class="eyebrow">PLATFORM</div><strong>Kubernetes</strong></div>
+<div><div class="eyebrow">SERVICES</div><strong>4 Applications</strong></div>
+<div><div class="eyebrow">STUDENT ID</div><strong>68130589</strong></div>
+</div>
+</section>
+</div>
+<div class="section-head"><div><div class="eyebrow">EXPLORE PLATFORM</div><h2>Application Services</h2></div><span class="muted" style="font-size:12px">Available Services</span></div>
+<div class="grid">
+<a class="service" href="/research"><div class="icon">📚</div><h3>Research Center</h3><p>บทสรุปงานวิจัยและข้อมูลการศึกษา Object Storage</p><span class="open">OPEN RESEARCH →</span></a>
+<a class="service" href="/api-589/Hello-Kubernetes-589"><div class="icon purple">⌘</div><h3>API Service</h3><p>ทดสอบการรับข้อความผ่าน API และแสดงผลบนหน้าเว็บ</p><span class="open">OPEN API →</span></a>
+<a class="service" href="http://admin.iam-589.com/"><div class="icon green">⚙</div><h3>Admin Console</h3><p>พื้นที่จัดการข้อมูล Portal และ Research</p><span class="open">OPEN ADMIN →</span></a>
+<a class="service" href="/edit"><div class="icon purple">✎</div><h3>Profile Settings</h3><p>แก้ไขข้อมูลส่วนตัวและรูปภาพโปรไฟล์</p><span class="open">EDIT PROFILE →</span></a>
+</div>
+</main>
+<footer class="footer">© 2026 PANYAPAT SUNGRUNG · KUBERNETES APPLICATION PLATFORM</footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-research
+  namespace: exam-589
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-research
+  template:
+    metadata:
+      labels:
+        app: app-research
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-worker1
+      containers:
+        - name: research
+          image: docker.io/library/python:3.12-slim
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command: ["/bin/sh", "-c"]
+          args:
+            - pip install --no-cache-dir -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 app:app
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: research-data
+              mountPath: /data
+            - name: research-code
+              mountPath: /app
+              readOnly: true
+            - name: research-templates
+              mountPath: /app/templates
+              readOnly: true
+      volumes:
+        - name: research-data
+          persistentVolumeClaim:
+            claimName: research-pvc-589
+        - name: research-code
+          configMap:
+            name: research-code
+        - name: research-templates
+          configMap:
+            name: research-templates
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-research
+  namespace: exam-589
+spec:
+  type: ClusterIP
+  selector:
+    app: app-research
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5000
