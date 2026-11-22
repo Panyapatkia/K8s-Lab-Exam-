@@ -1,39 +1,36 @@
-# K8s-Lab-Exam
+# โครงงาน Kubernetes Lab Exam
 
-Kubernetes Lab Examination Project
+ระบบเว็บแอปพลิเคชันบน Kubernetes ประกอบด้วย 4 แอปพลิเคชัน พัฒนาด้วย Python Flask และบริหารจัดการผ่าน Kubernetes Deployment, Service, ConfigMap, PersistentVolume, PersistentVolumeClaim และ NGINX Ingress
 
-A multi-application web platform deployed on Kubernetes using Flask, ConfigMap, PersistentVolume, PersistentVolumeClaim, ClusterIP Service and NGINX Ingress.
+## 1. ข้อมูลผู้จัดทำ
 
-## Student Information
+- ชื่อ-นามสกุล: Panyapat Sungrung
+- รหัสนักศึกษา: 68130589
+- ชื่อโครงงาน: Kubernetes Web Application Deployment
 
-- Student Name: Panyapat Sungrung
-- Student ID: 68130589
-- Project: Kubernetes Web Application Deployment
+## 2. วัตถุประสงค์ของโครงงาน
 
-## Applications
+1. เพื่อศึกษาและฝึกปฏิบัติการติดตั้งและจัดการแอปพลิเคชันบน Kubernetes
+2. เพื่อศึกษาแนวทางการใช้งาน Deployment และ Service สำหรับบริหารจัดการแอปพลิเคชัน
+3. เพื่อศึกษา ConfigMap สำหรับจัดเก็บและส่งค่าการตั้งค่าให้แอปพลิเคชัน
+4. เพื่อศึกษา PersistentVolume และ PersistentVolumeClaim สำหรับจัดเก็บข้อมูลถาวร
+5. เพื่อศึกษา NGINX Ingress สำหรับกำหนดเส้นทางการเข้าถึงเว็บแอปพลิเคชัน
 
-| Application | Deployment | Description |
+## 3. รายละเอียดระบบ
+
+โครงงานนี้ประกอบด้วย 4 แอปพลิเคชัน ดังนี้
+
+| แอปพลิเคชัน | Kubernetes Deployment | รายละเอียด |
 |---|---|---|
-| Student Portal | portal-589 | Student profile and profile editing |
-| Research | app-research | Research summary and editing |
-| API Service | api-589 | Displays API message |
-| Admin Dashboard | admin-589 | Links to Portal and Research editing |
+| Student Portal | portal-589 | หน้าแสดงข้อมูลนักศึกษาและแก้ไขข้อมูลส่วนตัว |
+| Research | app-research | หน้าแสดงบทสรุปงานวิจัยและแก้ไขข้อมูล |
+| API Service | api-589 | บริการ API สำหรับแสดงข้อความตาม URL ที่เรียกใช้งาน |
+| Admin Dashboard | admin-589 | หน้าสำหรับผู้ดูแลระบบ พร้อมลิงก์ไปยังหน้าแก้ไขข้อมูล |
 
-## System Architecture
-
-The project consists of four independent Flask applications running as Kubernetes Deployments.
-
-- Portal and Research use persistent storage.
-- ConfigMaps provide application code and HTML templates.
-- ClusterIP Services expose applications inside the cluster.
-- NGINX Ingress routes HTTP requests based on hostname and path.
-
-See [Architecture](docs/architecture.md).
-
-## Project Structure
+## 4. โครงสร้าง Repository
 
 ```text
-.
+K8s-Lab-Exam-/
 ├── apps/
 │   ├── portal/
 │   ├── research/
@@ -66,94 +63,158 @@ See [Architecture](docs/architecture.md).
 └── README.md
 ```
 
-## Prerequisites
+## 5. เทคโนโลยีที่ใช้
 
-- Kubernetes cluster
-- kubectl configured with cluster access
-- NGINX Ingress Controller with ingressClass `nginx`
-- Worker node named `k8s-worker1`
-- Static hostPath storage directories on the designated worker node
-- Network access to pull container images and install Python dependencies
+| เทคโนโลยี | หน้าที่ |
+|---|---|
+| Kubernetes | ระบบบริหารจัดการ Container |
+| Python Flask | พัฒนาเว็บแอปพลิเคชัน |
+| NGINX Ingress Controller | จัดการเส้นทางการเข้าถึงเว็บ |
+| ConfigMap | จัดเก็บ Configuration และ Application Code |
+| Deployment | บริหารจัดการ Pod และจำนวน Replicas |
+| ClusterIP Service | เปิดให้บริการภายใน Kubernetes Cluster |
+| PersistentVolume | จัดเตรียมพื้นที่จัดเก็บข้อมูล |
+| PersistentVolumeClaim | ขอใช้พื้นที่จัดเก็บข้อมูล |
+| GitHub | จัดเก็บ Source Code และไฟล์ติดตั้งระบบ |
 
-### Storage Requirements
+## 6. ข้อกำหนดก่อนติดตั้ง
 
-The current manifests use static PersistentVolumes with hostPath.
+ก่อนเริ่มติดตั้งต้องเตรียมสภาพแวดล้อมดังนี้
 
-The following directories must be prepared on `k8s-worker1`:
+- Kubernetes Cluster ต้องทำงานได้ตามปกติ
+- เครื่องที่ใช้ติดตั้งต้องสามารถใช้งาน kubectl ได้
+- ต้องมี Worker Node ชื่อ `k8s-worker1`
+- ต้องติดตั้ง NGINX Ingress Controller และมี IngressClass ชื่อ `nginx`
+- ต้องเตรียมพื้นที่จัดเก็บข้อมูลบน Worker Node ตามที่กำหนด
+- ต้องสามารถดาวน์โหลด Container Image และติดตั้ง Python Dependencies ได้
+
+### 6.1 การเตรียมพื้นที่จัดเก็บข้อมูล
+
+โครงงานใช้ Static PersistentVolume แบบ hostPath โดยกำหนดพื้นที่จัดเก็บข้อมูลบน `k8s-worker1` ดังนี้
 
 ```bash
 sudo mkdir -p /var/lib/k8s-exam/portal
 sudo mkdir -p /var/lib/k8s-exam/research
 ```
 
-The Portal and Research workloads are tied to the storage node. This design is intended for the lab environment and is not a highly available shared-storage architecture.
+หมายเหตุ: การใช้ hostPath เป็นรูปแบบการจัดเก็บข้อมูลสำหรับ Lab Environment โดยข้อมูลจะผูกกับ Node ที่กำหนด ไม่ใช่ระบบ Shared Storage หรือ High Availability Storage
 
-## Deployment
+## 7. ขั้นตอนการติดตั้งระบบ
 
-Clone the repository:
+### ขั้นตอนที่ 1 ดาวน์โหลดโครงการ
 
 ```bash
 git clone https://github.com/Panyapatkia/K8s-Lab-Exam-.git
+
 cd K8s-Lab-Exam-
 ```
 
-Check cluster prerequisites:
+### ขั้นตอนที่ 2 ตรวจสอบ Kubernetes Cluster
 
 ```bash
-kubectl get nodes
+kubectl get nodes -o wide
 kubectl get ingressclass
+kubectl cluster-info
 ```
 
-Deploy:
+### ขั้นตอนที่ 3 กำหนดสิทธิ์การทำงานของ Script
 
 ```bash
 chmod +x scripts/*.sh
+```
+
+### ขั้นตอนที่ 4 ติดตั้งระบบ
+
+```bash
 ./scripts/deploy.sh
 ```
 
-Verify:
+สคริปต์จะดำเนินการติดตั้งตามลำดับ ได้แก่
+
+1. ตรวจสอบการเชื่อมต่อ Kubernetes Cluster
+2. ตรวจสอบ Worker Node และ NGINX Ingress Class
+3. สร้าง Namespace
+4. สร้าง PersistentVolume และ PersistentVolumeClaim
+5. ติดตั้ง ConfigMap และ Deployment ของ Student Portal
+6. ติดตั้ง ConfigMap และ Deployment ของ Research
+7. ติดตั้ง ConfigMap และ Deployment ของ API Service
+8. ติดตั้ง ConfigMap และ Deployment ของ Admin Dashboard
+9. สร้าง Ingress สำหรับกำหนดเส้นทางการเข้าถึง
+10. ตรวจสอบสถานะ Deployment
+
+### ขั้นตอนที่ 5 ตรวจสอบการทำงาน
 
 ```bash
 ./scripts/verify.sh
 ```
 
-See [Deployment Guide](docs/deployment-guide.md) for detailed instructions.
-
-## Application URLs
-
-Configure DNS or the client hosts file to point the following domains to the Ingress entry point:
-
-| URL | Application |
-|---|---|
-| http://www.iam-589.com/ | Student Portal |
-| http://www.iam-589.com/edit | Edit Student Profile |
-| http://www.iam-589.com/research | Research Summary |
-| http://www.iam-589.com/research/edit | Edit Research |
-| http://www.iam-589.com/api-589/Hello-Kubernetes-589 | API Service |
-| http://admin.iam-589.com/ | Admin Dashboard |
-
-The Ingress Controller and external Load Balancer or NodePort access must be configured separately according to the target environment.
-
-## Verification Commands
+หรือใช้คำสั่งตรวจสอบแยกตามประเภท Resource
 
 ```bash
 kubectl get pods -n exam-589 -o wide
-kubectl get svc -n exam-589
+kubectl get deployments -n exam-589
+kubectl get services -n exam-589
 kubectl get pvc -n exam-589
 kubectl get pv
 kubectl get ingress -n exam-589
 ```
 
-## Notes and Limitations
+## 8. การเข้าถึงระบบ
 
-- The manifests are designed for the lab environment.
-- The namespace is `exam-589`.
-- Storage uses static hostPath PersistentVolumes.
-- Portal and Research require the designated storage node.
-- NGINX Ingress Controller is a prerequisite and is not installed by the deployment script.
-- Domain resolution and external Load Balancer configuration are environment-specific.
-- Review and adjust storage paths, node affinity, domains and networking before deploying to another cluster.
+กำหนด DNS หรือ Hosts File ของเครื่อง Client ให้ชี้ไปยัง Ingress Entry Point ของระบบ
 
-## Repository
+| URL | รายละเอียด |
+|---|---|
+| http://www.iam-589.com/ | หน้า Student Portal |
+| http://www.iam-589.com/edit | หน้าแก้ไขข้อมูลนักศึกษา |
+| http://www.iam-589.com/research | หน้าสรุปงานวิจัย |
+| http://www.iam-589.com/research/edit | หน้าแก้ไขข้อมูลงานวิจัย |
+| http://www.iam-589.com/api-589/Hello-Kubernetes-589 | หน้า API Service |
+| http://admin.iam-589.com/ | หน้า Admin Dashboard |
+
+หมายเหตุ: การกำหนด DNS, External Load Balancer และ NodePort ต้องดำเนินการให้สอดคล้องกับสภาพแวดล้อมของ Kubernetes Cluster
+
+## 9. การตรวจสอบและแก้ไขปัญหา
+
+ตรวจสอบสถานะ Pod:
+
+```bash
+kubectl get pods -n exam-589 -o wide
+```
+
+ตรวจสอบ Log ของแต่ละแอปพลิเคชัน:
+
+```bash
+kubectl logs deployment/portal-589 -n exam-589
+kubectl logs deployment/app-research -n exam-589
+kubectl logs deployment/api-589 -n exam-589
+kubectl logs deployment/admin-589 -n exam-589
+```
+
+ตรวจสอบ Ingress:
+
+```bash
+kubectl describe ingress exam-ingress -n exam-589
+```
+
+ตรวจสอบ Storage:
+
+```bash
+kubectl get pv,pvc -n exam-589
+```
+
+## 10. ข้อจำกัดของระบบ
+
+- ระบบนี้ออกแบบสำหรับสภาพแวดล้อม Lab ตามที่กำหนด
+- ใช้ Namespace ชื่อ `exam-589`
+- ใช้ Static PersistentVolume แบบ hostPath
+- Student Portal และ Research ผูกกับ Worker Node ที่กำหนดผ่าน Node Affinity
+- ต้องติดตั้ง NGINX Ingress Controller ก่อนใช้งาน
+- การกำหนด DNS และ Load Balancer ต้องปรับตามสภาพแวดล้อมจริง
+- หากนำไปติดตั้งบน Cluster อื่น ต้องตรวจสอบ Node Name, Storage Path, Storage Capacity และ Ingress Configuration ก่อน
+
+## 11. GitHub Repository
+
+Source Code และไฟล์ Configuration ของโครงงาน:
 
 https://github.com/Panyapatkia/K8s-Lab-Exam-
