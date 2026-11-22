@@ -1,4 +1,4 @@
-# โครงงาน Kubernetes Lab Exam
+# Kubernetes Lab Exam
 
 ระบบเว็บแอปพลิเคชันบน Kubernetes ประกอบด้วย 4 แอปพลิเคชัน พัฒนาด้วย Python Flask และบริหารจัดการผ่าน Kubernetes Deployment, Service, ConfigMap, PersistentVolume, PersistentVolumeClaim และ NGINX Ingress
 
@@ -6,19 +6,9 @@
 
 - ชื่อ-นามสกุล: Panyapat Sungrung
 - รหัสนักศึกษา: 68130589
-- ชื่อโครงงาน: Kubernetes Web Application Deployment
-
-## 2. วัตถุประสงค์ของโครงงาน
-
-1. เพื่อศึกษาและฝึกปฏิบัติการติดตั้งและจัดการแอปพลิเคชันบน Kubernetes
-2. เพื่อศึกษาแนวทางการใช้งาน Deployment และ Service สำหรับบริหารจัดการแอปพลิเคชัน
-3. เพื่อศึกษา ConfigMap สำหรับจัดเก็บและส่งค่าการตั้งค่าให้แอปพลิเคชัน
-4. เพื่อศึกษา PersistentVolume และ PersistentVolumeClaim สำหรับจัดเก็บข้อมูลถาวร
-5. เพื่อศึกษา NGINX Ingress สำหรับกำหนดเส้นทางการเข้าถึงเว็บแอปพลิเคชัน
-
 ## 3. รายละเอียดระบบ
 
-โครงงานนี้ประกอบด้วย 4 แอปพลิเคชัน ดังนี้
+ประกอบด้วย 4 แอปพลิเคชัน ดังนี้
 
 | แอปพลิเคชัน | Kubernetes Deployment | รายละเอียด |
 |---|---|---|
@@ -26,6 +16,13 @@
 | Research | app-research | หน้าแสดงบทสรุปงานวิจัยและแก้ไขข้อมูล |
 | API Service | api-589 | บริการ API สำหรับแสดงข้อความตาม URL ที่เรียกใช้งาน |
 | Admin Dashboard | admin-589 | หน้าสำหรับผู้ดูแลระบบ พร้อมลิงก์ไปยังหน้าแก้ไขข้อมูล |
+
+ชื่อและหน้าที่ของแต่ละ Application
+ลำดับ	URL / Path	ชื่อ Application	Deployment Name	หน้าที่
+1	www.iam-589.com/	Student Portal	portal-589	แสดงรูปภาพ ชื่อ และรหัสนักศึกษา
+2	www.iam-589.com/research	Research	app-research	แสดงบทสรุปงานวิจัย 300–500 คำ
+3	www.iam-589.com/api-589/<ข้อความ>	API Service	api-589	แสดงข้อความที่ส่งผ่าน URL ด้วยตัวอักษรขนาดใหญ่ตรงกลางหน้าจอ
+4	admin.iam-589.com/	Admin Dashboard	admin-589	แสดงปุ่มสำหรับเลือกแก้ไขข้อมูล Student Portal และ Research
 
 ## 4. โครงสร้าง Repository
 
@@ -76,17 +73,6 @@ K8s-Lab-Exam-/
 | PersistentVolume | จัดเตรียมพื้นที่จัดเก็บข้อมูล |
 | PersistentVolumeClaim | ขอใช้พื้นที่จัดเก็บข้อมูล |
 | GitHub | จัดเก็บ Source Code และไฟล์ติดตั้งระบบ |
-
-## 6. ข้อกำหนดก่อนติดตั้ง
-
-ก่อนเริ่มติดตั้งต้องเตรียมสภาพแวดล้อมดังนี้
-
-- Kubernetes Cluster ต้องทำงานได้ตามปกติ
-- เครื่องที่ใช้ติดตั้งต้องสามารถใช้งาน kubectl ได้
-- ต้องมี Worker Node ชื่อ `k8s-worker1`
-- ต้องติดตั้ง NGINX Ingress Controller และมี IngressClass ชื่อ `nginx`
-- ต้องเตรียมพื้นที่จัดเก็บข้อมูลบน Worker Node ตามที่กำหนด
-- ต้องสามารถดาวน์โหลด Container Image และติดตั้ง Python Dependencies ได้
 
 ### 6.1 การเตรียมพื้นที่จัดเก็บข้อมูล
 
@@ -202,16 +188,6 @@ kubectl describe ingress exam-ingress -n exam-589
 ```bash
 kubectl get pv,pvc -n exam-589
 ```
-
-## 10. ข้อจำกัดของระบบ
-
-- ระบบนี้ออกแบบสำหรับสภาพแวดล้อม Lab ตามที่กำหนด
-- ใช้ Namespace ชื่อ `exam-589`
-- ใช้ Static PersistentVolume แบบ hostPath
-- Student Portal และ Research ผูกกับ Worker Node ที่กำหนดผ่าน Node Affinity
-- ต้องติดตั้ง NGINX Ingress Controller ก่อนใช้งาน
-- การกำหนด DNS และ Load Balancer ต้องปรับตามสภาพแวดล้อมจริง
-- หากนำไปติดตั้งบน Cluster อื่น ต้องตรวจสอบ Node Name, Storage Path, Storage Capacity และ Ingress Configuration ก่อน
 
 ## 11. GitHub Repository
 
