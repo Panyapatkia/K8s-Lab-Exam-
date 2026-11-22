@@ -30,26 +30,20 @@ spec:
               port: 5000
             initialDelaySeconds: 5
             periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 15
-            periodSeconds: 20
           volumeMounts:
-            - name: admin-code
+            - name: admin-app
               mountPath: /app
               readOnly: true
-            - name: admin-templates
-              mountPath: /app/templates
-              readOnly: true
       volumes:
-        - name: admin-code
-          configMap:
-            name: admin-code
-        - name: admin-templates
-          configMap:
-            name: admin-templates
+        - name: admin-app
+          projected:
+            sources:
+              - configMap:
+                  name: admin-code
+              - configMap:
+                  name: admin-templates
+                  items:
+                    - { key: index.html, path: templates/index.html }
 ---
 apiVersion: v1
 kind: Service
@@ -64,4 +58,3 @@ spec:
     - name: http
       port: 80
       targetPort: 5000
-      protocol: TCP

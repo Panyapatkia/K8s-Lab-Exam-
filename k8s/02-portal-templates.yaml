@@ -1,72 +1,90 @@
 apiVersion: v1
 data:
-  edit.html: |
+  edit.html: |-
     <!DOCTYPE html>
-    <html lang="th">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Portal</title>
+    <html lang="th"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Profile | 68130589</title>
     <style>
-    body{background:#101827;color:white;font-family:Arial;padding:30px}
-    form{max-width:500px;margin:50px auto;background:#1e293b;
-    padding:30px;border-radius:15px}
-    label{display:block;margin-top:18px}
-    input{width:100%;padding:12px;margin-top:8px;border-radius:7px;border:0}
-    button{margin-top:25px;padding:12px 25px;background:#0284c7;
-    color:white;border:0;border-radius:8px;cursor:pointer}
-    a{color:#38bdf8}
-    </style>
-    </head>
-    <body>
+    :root{--bg:#07111f;--panel:#12243b;--line:#2b4563;--text:#edf5ff;--muted:#9bb0ca;--blue:#38bdf8}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 20% 0%,#12365a,transparent 40%),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Tahoma,sans-serif;padding:25px}
+    .top{max-width:850px;margin:15px auto}.back{color:var(--blue);font-size:13px;font-weight:700}
+    .panel{max-width:850px;margin:20px auto;background:linear-gradient(145deg,#172d49,#101e33);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,5vw,42px);box-shadow:0 22px 60px #0005}
+    .eyebrow{color:var(--blue);font-size:11px;letter-spacing:2px;font-weight:800}h1{margin:8px 0;font-size:30px}.muted{color:var(--muted);line-height:1.7}
+    label{display:block;margin:20px 0 8px;font-size:13px;font-weight:700;color:#dceaff}
+    input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:#09172a;color:white;font-size:15px}
+    input:focus{outline:2px solid #38bdf855;border-color:var(--blue)}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+    .btn{padding:13px 20px;border:0;border-radius:11px;background:linear-gradient(120deg,#38bdf8,#818cf8);color:#071426;font-weight:800;cursor:pointer;text-decoration:none}
+    .btn.alt{background:#1b3553;color:#dceaff;border:1px solid var(--line)}
+    .preview{max-width:120px;max-height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--blue);margin-top:12px}
+    </style></head><body>
+    <div class="top"><a class="back" href="/">← BACK TO PORTAL</a></div>
+    <main class="panel">
+    <div class="eyebrow">PROFILE MANAGEMENT · 68130589</div>
+    <h1>Edit Student Profile</h1>
+    <p class="muted">แก้ไขข้อมูลส่วนตัวและรูปภาพโปรไฟล์ของคุณ</p>
     <form method="POST" enctype="multipart/form-data">
-    <h2>Edit Student Portal</h2>
-    <label>Student Name</label>
-    <input name="name" value="{{ data.name }}" required>
-    <label>Student ID</label>
-    <input name="student_id" value="{{ data.student_id }}" required>
-    <label>Profile Image</label>
-    <input type="file" name="photo" accept="image/*">
-    <button type="submit">Save Changes</button>
-    <p><a href="/">Back to Portal</a></p>
+    <label>Full Name</label><input name="name" value="{{ data.name }}" required>
+    <label>Student ID</label><input name="student_id" value="{{ data.student_id }}" required>
+    <label>Profile Image</label><input type="file" name="photo" accept="image/*">
+    {% if data.image %}<img class="preview" src="/uploads/{{ data.image }}" alt="Current profile image">{% endif %}
+    <div class="actions"><button class="btn" type="submit">SAVE CHANGES</button><a class="btn alt" href="/">CANCEL</a></div>
     </form>
-    </body>
-    </html>
-  index.html: |
-    <!DOCTYPE html>
-    <html lang="th">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Student Portal | 68130589</title>
-    <style>
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:#101827;color:#fff;
-    font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center}
-    .card{width:90%;max-width:600px;background:#1e293b;padding:40px;
-    border-radius:20px;text-align:center;box-shadow:0 15px 45px #0006}
-    .avatar{width:170px;height:170px;border-radius:50%;object-fit:cover;
-    border:4px solid #38bdf8;background:#334155}
-    h1{margin:24px 0 10px;font-size:30px}
-    .id{color:#38bdf8;font-size:20px;letter-spacing:2px}
-    a{display:inline-block;margin-top:28px;padding:12px 25px;
-    background:#0284c7;color:white;text-decoration:none;border-radius:9px}
-    </style>
-    </head>
-    <body>
-    <div class="card">
-    {% if data.image %}
-    <img class="avatar" src="/uploads/{{ data.image }}" alt="Student Profile">
-    {% else %}
-    <div class="avatar" style="margin:auto;display:flex;align-items:center;
-    justify-content:center;font-size:60px">PS</div>
-    {% endif %}
-    <h1>{{ data.name }}</h1>
-    <div class="id">STUDENT ID: {{ data.student_id }}</div>
-    <a href="/edit">Edit Profile</a>
-    </div>
-    </body>
-    </html>
+    </main></body></html>
+  index.html: "<!DOCTYPE html>\n<html lang=\"th\">\n<head>\n<meta charset=\"UTF-8\">\n<meta
+    name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Student
+    Portal | 68130589</title>\n<style>\n:root{--bg:#07111f;--panel:#101f35;--panel2:#172b47;--line:#29415e;--text:#edf5ff;--muted:#9bb0ca;--blue:#38bdf8;--purple:#8b5cf6;--green:#34d399}\n*{box-sizing:border-box}\nbody{margin:0;min-height:100vh;color:var(--text);font-family:Inter,\"Segoe
+    UI\",Tahoma,sans-serif;background:radial-gradient(ellipse at 15% 0%,#12365a 0,transparent
+    38%),radial-gradient(ellipse at 90% 85%,#241b52 0,transparent 35%),var(--bg)}\na{color:inherit;text-decoration:none}\n.nav{border-bottom:1px
+    solid #29415e;background:#07111fdc;backdrop-filter:blur(14px);position:sticky;top:0;z-index:5}\n.nav-inner{max-width:1120px;margin:auto;padding:17px
+    24px;display:flex;justify-content:space-between;align-items:center;gap:18px}\n.brand{font-weight:900;letter-spacing:2px;font-size:19px}\n.brand
+    span{color:var(--blue)}\n.links{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:#c2d3e8}\n.links
+    a:hover{color:var(--blue)}\n.wrap{width:min(92%,1050px);margin:48px auto}\n.hero{display:grid;grid-template-columns:1fr
+    1.1fr;gap:22px;align-items:stretch}\n.card{background:linear-gradient(145deg,#142943ee,#0e1b30ee);border:1px
+    solid var(--line);border-radius:23px;padding:30px;box-shadow:0 22px 65px #0005}\n.profile{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}\n.avatar{width:155px;height:155px;border-radius:50%;object-fit:cover;border:3px
+    solid var(--blue);box-shadow:0 0 35px #38bdf855;background:#203b59}\n.initial{display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:var(--blue)}\n.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:var(--blue)}\nh1{font-size:clamp(26px,4vw,38px);margin:18px
+    0 5px}\n.student-id{color:var(--blue);letter-spacing:3px;font-weight:700}\n.muted{color:var(--muted);line-height:1.8}\n.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px
+    19px;border-radius:12px;background:linear-gradient(120deg,var(--blue),#818cf8);color:#061426;font-weight:800;font-size:13px;border:0;cursor:pointer;transition:.2s}\n.btn:hover{transform:translateY(-3px);filter:brightness(1.1)}\n.btn.secondary{background:#1c3553;color:#d9eaff;border:1px
+    solid #365574}\n.profile .btn{margin-top:22px}\n.section-head{display:flex;justify-content:space-between;align-items:end;margin:42px
+    0 17px;gap:12px}\n.section-head h2{margin:5px 0;font-size:23px}\n.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}\n.service{display:block;padding:24px;border-radius:19px;background:linear-gradient(145deg,#142943,#0e1b30);border:1px
+    solid var(--line);transition:.2s}\n.service:hover{transform:translateY(-4px);border-color:#38bdf8;box-shadow:0
+    15px 40px #0004}\n.icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#38bdf822;font-size:23px;margin-bottom:16px}\n.icon.purple{background:#8b5cf622}.icon.green{background:#34d39922}\n.service
+    h3{margin:0 0 7px}.service p{font-size:13px;color:var(--muted);line-height:1.7;margin:0
+    0 15px}\n.open{font-size:12px;color:var(--blue);font-weight:800}\n.footer{text-align:center;color:#7188a6;font-size:11px;padding:35px
+    10px;letter-spacing:1px}\n@media(max-width:700px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.nav-inner{align-items:flex-start;flex-direction:column}.links{gap:14px}.wrap{margin:28px
+    auto}.card{padding:23px}}\n</style>\n</head>\n<body>\n<nav class=\"nav\"><div
+    class=\"nav-inner\">\n<a class=\"brand\" href=\"/\">PANYAPAT<span>.</span></a>\n<div
+    class=\"links\">\n<a href=\"/\">HOME</a><a href=\"/research\">RESEARCH</a>\n<a
+    href=\"/api-589/Hello-Kubernetes-589\">API SERVICE</a>\n<a href=\"http://admin.iam-589.com/\">ADMIN</a>\n</div>\n</div></nav>\n<main
+    class=\"wrap\">\n<div class=\"hero\">\n<section class=\"card profile\">\n<div
+    class=\"eyebrow\">STUDENT PROFILE</div>\n{% if data.image %}\n<img class=\"avatar\"
+    src=\"/uploads/{{ data.image }}\" alt=\"Student Profile\">\n{% else %}\n<div class=\"avatar
+    initial\">PS</div>\n{% endif %}\n<h1>{{ data.name }}</h1>\n<div class=\"student-id\">STUDENT
+    ID: {{ data.student_id }}</div>\n<p class=\"muted\">Computer Engineering<br>Technology
+    • Infrastructure • Cloud</p>\n<a class=\"btn\" href=\"/edit\">✎ &nbsp; EDIT PROFILE</a>\n</section>\n<section
+    class=\"card\">\n<div class=\"eyebrow\">KUBERNETES APPLICATION PLATFORM</div>\n<h1>Welcome
+    to My<br>Digital Workspace.</h1>\n<p class=\"muted\">พื้นที่รวบรวมบริการและผลงานที่พัฒนาบน
+    Kubernetes Cluster เพื่อแสดงการทำงานของ Web Application, API และระบบจัดการข้อมูล</p>\n<div
+    style=\"display:flex;gap:10px;flex-wrap:wrap;margin-top:25px\">\n<a class=\"btn\"
+    href=\"/research\">EXPLORE RESEARCH ↗</a>\n<a class=\"btn secondary\" href=\"http://admin.iam-589.com/\">ADMIN
+    PORTAL</a>\n</div>\n<div style=\"margin-top:32px;padding-top:20px;border-top:1px
+    solid var(--line);display:flex;gap:28px;flex-wrap:wrap\">\n<div><div class=\"eyebrow\">PLATFORM</div><strong>Kubernetes</strong></div>\n<div><div
+    class=\"eyebrow\">SERVICES</div><strong>4 Applications</strong></div>\n<div><div
+    class=\"eyebrow\">STUDENT ID</div><strong>68130589</strong></div>\n</div>\n</section>\n</div>\n<div
+    class=\"section-head\"><div><div class=\"eyebrow\">EXPLORE PLATFORM</div><h2>Application
+    Services</h2></div><span class=\"muted\" style=\"font-size:12px\">Available Services</span></div>\n<div
+    class=\"grid\">\n<a class=\"service\" href=\"/research\"><div class=\"icon\">\U0001F4DA</div><h3>Research
+    Center</h3><p>บทสรุปงานวิจัยและข้อมูลการศึกษา Object Storage</p><span class=\"open\">OPEN
+    RESEARCH →</span></a>\n<a class=\"service\" href=\"/api-589/Hello-Kubernetes-589\"><div
+    class=\"icon purple\">⌘</div><h3>API Service</h3><p>ทดสอบการรับข้อความผ่าน API
+    และแสดงผลบนหน้าเว็บ</p><span class=\"open\">OPEN API →</span></a>\n<a class=\"service\"
+    href=\"http://admin.iam-589.com/\"><div class=\"icon green\">⚙</div><h3>Admin
+    Console</h3><p>พื้นที่จัดการข้อมูล Portal และ Research</p><span class=\"open\">OPEN
+    ADMIN →</span></a>\n<a class=\"service\" href=\"/edit\"><div class=\"icon purple\">✎</div><h3>Profile
+    Settings</h3><p>แก้ไขข้อมูลส่วนตัวและรูปภาพโปรไฟล์</p><span class=\"open\">EDIT
+    PROFILE →</span></a>\n</div>\n</main>\n<footer class=\"footer\">© 2026 PANYAPAT
+    SUNGRUNG · KUBERNETES APPLICATION PLATFORM</footer>\n</body>\n</html>"
 kind: ConfigMap
 metadata:
   name: portal-templates

@@ -24,26 +24,34 @@ spec:
           args:
             - pip install --no-cache-dir -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 app:app
           ports:
-            - containerPort: 5000
+            - name: http
+              containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           volumeMounts:
             - name: portal-data
               mountPath: /data
-            - name: portal-code
+            - name: portal-app
               mountPath: /app
-              readOnly: true
-            - name: portal-templates
-              mountPath: /app/templates
               readOnly: true
       volumes:
         - name: portal-data
           persistentVolumeClaim:
             claimName: portal-pvc-589
-        - name: portal-code
-          configMap:
-            name: portal-code
-        - name: portal-templates
-          configMap:
-            name: portal-templates
+        - name: portal-app
+          projected:
+            sources:
+              - configMap:
+                  name: portal-code
+              - configMap:
+                  name: portal-templates
+                  items:
+                    - { key: index.html, path: templates/index.html }
+                    - { key: edit.html, path: templates/edit.html }
 ---
 apiVersion: v1
 kind: Service

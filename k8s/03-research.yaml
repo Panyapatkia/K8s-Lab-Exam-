@@ -24,26 +24,34 @@ spec:
           args:
             - pip install --no-cache-dir -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 app:app
           ports:
-            - containerPort: 5000
+            - name: http
+              containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           volumeMounts:
             - name: research-data
               mountPath: /data
-            - name: research-code
+            - name: research-app
               mountPath: /app
-              readOnly: true
-            - name: research-templates
-              mountPath: /app/templates
               readOnly: true
       volumes:
         - name: research-data
           persistentVolumeClaim:
             claimName: research-pvc-589
-        - name: research-code
-          configMap:
-            name: research-code
-        - name: research-templates
-          configMap:
-            name: research-templates
+        - name: research-app
+          projected:
+            sources:
+              - configMap:
+                  name: research-code
+              - configMap:
+                  name: research-templates
+                  items:
+                    - { key: research.html, path: templates/research.html }
+                    - { key: edit.html, path: templates/edit.html }
 ---
 apiVersion: v1
 kind: Service
